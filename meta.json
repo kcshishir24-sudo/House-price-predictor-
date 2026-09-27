@@ -1,0 +1,115 @@
+{
+  "features": [
+    "district",
+    "area_sqft",
+    "road_width_ft",
+    "bedrooms",
+    "bathrooms",
+    "floors",
+    "building_age"
+  ],
+  "districts": [
+    "Bhaktapur",
+    "Butwal",
+    "Chitwan",
+    "Kathmandu",
+    "Lalitpur",
+    "Pokhara"
+  ],
+  "data_source": "simulated",
+  "selected_model": "Gradient Boosting",
+  "range_margin": 0.15401583781282077,
+  "range_coverage_pct": 66.66666666666666,
+  "ranges": {
+    "area_sqft": [
+      492.84,
+      26973.0
+    ],
+    "road_width_ft": [
+      6.0,
+      45.0
+    ],
+    "bedrooms": [
+      1.0,
+      9.0
+    ],
+    "bathrooms": [
+      1.0,
+      7.0
+    ],
+    "floors": [
+      1.0,
+      4.0
+    ],
+    "building_age": [
+      0.0,
+      50.0
+    ]
+  },
+  "cleaning": {
+    "rows_raw": 3045,
+    "duplicates_removed": 45,
+    "missing_cells_imputed": 259,
+    "outliers_removed": 16,
+    "rows_clean": 2984
+  },
+  "results": {
+    "Linear Regression": {
+      "train_r2": 0.8295194894467557,
+      "test_r2": 0.8172570309256912,
+      "cv_r2_mean": 0.8266406800608292,
+      "cv_r2_std": 0.02812784922329711,
+      "rmse_lakh": 51.08795063690339,
+      "mae_lakh": 31.335496405908284,
+      "mape_pct": 15.041522409284843,
+      "pred_time_ms": 4.503918750000935,
+      "train_time_s": 0.014415868000014598
+    },
+    "Decision Tree": {
+      "train_r2": 0.9401672962961986,
+      "test_r2": 0.8011360149641327,
+      "cv_r2_mean": 0.7763676015849776,
+      "cv_r2_std": 0.020796726153328633,
+      "rmse_lakh": 53.293741639200434,
+      "mae_lakh": 37.89349222799056,
+      "mape_pct": 19.710039497292406,
+      "pred_time_ms": 4.521645299999477,
+      "train_time_s": 0.017621123000026273
+    },
+    "Random Forest": {
+      "train_r2": 0.9611837194279859,
+      "test_r2": 0.8642659784100799,
+      "cv_r2_mean": 0.850718404676696,
+      "cv_r2_std": 0.023192082522274764,
+      "rmse_lakh": 44.02937306506155,
+      "mae_lakh": 29.90948412767646,
+      "mape_pct": 15.127540910648282,
+      "pred_time_ms": 70.73957210000117,
+      "train_time_s": 1.033331486999998
+    },
+    "Gradient Boosting": {
+      "train_r2": 0.9427324219671418,
+      "test_r2": 0.8924503440307759,
+      "cv_r2_mean": 0.8722364274016818,
+      "cv_r2_std": 0.023890477693213844,
+      "rmse_lakh": 39.19247192813768,
+      "mae_lakh": 26.84267209715236,
+      "mape_pct": 13.612961616310356,
+      "pred_time_ms": 5.003929800000151,
+      "train_time_s": 0.8286942640000348
+    }
+  },
+  "importance": {
+    "area_sqft": 1.7771864782252311,
+    "district": 0.5653057639302776,
+    "floors": 0.11122378578013667,
+    "building_age": 0.06482090373608004,
+    "road_width_ft": 0.02729494712995083,
+    "bedrooms": 0.001804445807802879,
+    "bathrooms": -0.004251567619817665
+  },
+  "split": {
+    "train": 2387,
+    "test": 597
+  }
+}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}My history{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>My valuation history</h1>
+  {% if not rows %}<p class="sub">You have no estimates yet. <a href="{{ url_for('index') }}">Make one.</a></p>
+  {% else %}
+  <div class="scroll"><table>
+    <tr><th>Date (UTC)</th><th>District</th><th>Area</th><th>Road</th><th>Bed/Bath</th><th>Floors</th><th>Age</th><th>Estimate</th><th>Range</th></tr>
+    {% for r in rows %}<tr>
+      <td>{{ r.timestamp }}</td><td>{{ r.district }}</td>
+      <td>{{ '%g' % r.raw_area_val }} {{ unit_labels[r.unit_type] }}<br><span class="note">{{ '{:,.0f}'.format(r.area_sqft) }} sq ft</span></td>
+      <td>{{ '%g' % r.road_width_ft }} ft</td><td>{{ r.bedrooms }}/{{ r.bathrooms }}</td><td>{{ '%g' % r.floors }}</td><td>{{ r.building_age }}</td>
+      <td><strong>{{ fmt(r.predicted_npr) }}</strong></td><td>{{ fmt(r.price_min_npr) }} – {{ fmt(r.price_max_npr) }}</td>
+    </tr>{% endfor %}
+  </table></div>
+  {% endif %}
+</div>
+{% endblock %}

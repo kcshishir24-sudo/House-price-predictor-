@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Admin{% endblock %}
+{% block content %}
+<div class="card">
+  <h1>Administration</h1>
+  <p class="sub">{{ users|length }} users &middot; {{ n_queries }} valuation queries logged &middot; active model: {{ meta.selected_model }}</p>
+  <h2>Dataset &amp; retraining</h2>
+  <form method="post" action="{{ url_for('admin_upload') }}" enctype="multipart/form-data">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <p><input type="file" name="dataset" accept=".csv" required></p>
+    <p class="note">Required columns: district, area_value, area_unit, road_width_ft, bedrooms, bathrooms, floors, building_age, price_npr.</p>
+    <button class="sec" type="submit">Upload dataset</button>
+  </form>
+  <form method="post" action="{{ url_for('admin_retrain') }}" style="margin-top:12px">
+    <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+    <button type="submit">Retrain model</button> <span class="note">Takes a few seconds; the new model is loaded automatically.</span>
+  </form>
+</div>
+<div class="card">
+  <h2>Users</h2>
+  <div class="scroll"><table>
+    <tr><th>ID</th><th>Name</th><th>Email</th><th>Role</th><th>Joined</th><th></th></tr>
+    {% for u in users %}<tr><td>{{ u.user_id }}</td><td>{{ u.full_name }}</td><td>{{ u.email }}</td>
+      <td>{% if u.user_id != user.user_id %}
+        <form method="post" action="{{ url_for('admin_role') }}" style="display:flex;gap:6px">
+          <input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="user_id" value="{{ u.user_id }}">
+          <select name="role" style="width:auto">{% for r in ['buyer','agent','admin'] %}<option {{ 'selected' if u.role == r }}>{{ r }}</option>{% endfor %}</select>
+          <button class="sec small">Set</button></form>{% else %}{{ u.role }} (you){% endif %}</td>
+      <td>{{ u.created_at }}</td>
+      <td>{% if u.user_id != user.user_id %}<form method="post" action="{{ url_for('admin_delete_user') }}">
+        <input type="hidden" name="csrf" value="{{ csrf_token() }}"><input type="hidden" name="user_id" value="{{ u.user_id }}">
+        <button class="sec small">Delete</button></form>{% endif %}</td></tr>{% endfor %}
+  </table></div>
+</div>
+{% endblock %}

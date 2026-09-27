@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+  <h1>Estimated price</h1>
+  <div class="price">{{ res.display }}</div>
+  <div class="range">Likely range: {{ res.range_display }}</div>
+  {% if res.outside_range %}
+    <div class="alert warn" style="margin-top:16px"><strong>Warning:</strong> some inputs are outside the range the model was trained on
+      ({{ res.outside_range | join(', ') }}). Treat this estimate with extra caution.</div>
+  {% endif %}
+  <dl>
+    <dt>District</dt><dd>{{ v.district }}</dd>
+    <dt>Land area entered</dt><dd>{{ '%g' % v.area_value }} {{ unit_labels[v.area_unit] }}</dd>
+    <dt>Land area (sq ft)</dt><dd>{{ '{:,.2f}'.format(res.area_sqft) }}</dd>
+    <dt>Road width</dt><dd>{{ '%g' % v.road_width_ft }} ft</dd>
+    <dt>Bedrooms / Bathrooms</dt><dd>{{ v.bedrooms }} / {{ v.bathrooms }}</dd>
+    <dt>Floors</dt><dd>{{ '%g' % v.floors }}</dd>
+    <dt>Building age</dt><dd>{{ v.building_age }} years</dd>
+  </dl>
+  <p class="note" style="margin-top:20px">The range is the model's typical error (&plusmn;{{ '%.1f' % (meta.range_margin * 100) }}%); about
+    {{ '%.0f' % meta.range_coverage_pct }}% of held-out prices fell inside it, so read it as a guide, not a guarantee.
+    This estimate is for decision support and is not a certified bank appraisal.</p>
+  <p><a class="btn" href="{{ url_for('index') }}">New estimate</a></p>
+</div>
+{% endblock %}
